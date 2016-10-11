@@ -16,8 +16,9 @@ William Rand
 
 Kristina Lerman
 
+Analysis of data from Stack Exchange (data available at https://archive.org/details/stackexchange)
 
-This code was ripped straight from our original files, therefore it may require some tweaking. Data used in conjunction with this code is available upon request.
+This code was ripped straight from our original files, therefore it may require some tweaking. Cleaned data used in conjunction with this code is available upon request, but all data comes from the link above.
 
 Reputation.py:
 We reconstruct the reputation of an answerer just before an answer was voted on (this can be easily changed to be, e.g., the reputation at the moment an answer was made). The following was used to create a close facsimile of the true reputation (reputation rules are based on http://meta.stackexchange.com/questions/7237/how-does-reputation-work):
