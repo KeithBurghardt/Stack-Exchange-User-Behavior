@@ -33,8 +33,6 @@ We reconstruct the reputation of an answerer just before an answer was voted on 
 
 •	one of your questions or answers is voted down/not useful: −2 
 
-•	you vote an answer down/not useful: −1 
-
 •	All users start with one reputation point. 
 
 
@@ -58,6 +56,8 @@ reputation: +100 on each site (awarded a maximum of one time per site)
 •	(Stack Overflow only) one of your documentation contributions is approved: +2 
 
 •	(Stack Overflow only) one of your documentation examples is voted up/useful: +5 
+
+•	 you vote an answer down/not useful: −1 
 
 •	 a post where you had successfully suggested an edit has been deleted (reputation page shows the cause as "removed"): -2 
 
