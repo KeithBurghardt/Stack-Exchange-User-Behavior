@@ -1,9 +1,10 @@
 import sys;
+# used to make pymysql work correctly
 sys.path.insert(0, '/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages');
 import pymysql as db;
 import time;from datetime import date, time, datetime;
 import csv;
-
+# All boards (had to be written by rote)
 boards = ["academia", "academiameta", "android", "androidmeta","anime", "animemeta", "apple", "applemeta", "arduino","arduinometa", "askubuntumeta", "astronomy",
 "astronomymeta","aviation", "aviationmeta", "avp", "avpmeta", "beer", "beermeta","bicycles", "bicyclesmeta", "biology", "biologymeta","bitcoin","bitcoinmeta",
 "blender", "blendermeta", "boardgames","boardgamesmeta", "bricks", "bricksmeta", "buddhism","buddhismmeta", "chemistry", "chemistrymeta", "chess","chessmeta",
@@ -31,18 +32,19 @@ boards = ["academia", "academiameta", "android", "androidmeta","anime", "animeme
 "sound", "space", "sqa","stackoverflowpt", "startups", "tex", "tor", "tridion", "unix","ux", "webapps", "webmasters", "windowsphone", "wordpress"];
 non_tech_boards = [board for board in boards if "meta" not in board and board not in tech_boards];
 meta_boards = [board for board in boards if "meta" in board];
-
+#change this directory to be whatever you wish
 directory = '/Users/networklab/Desktop/Reputation/';
+#user, password, and port can vary
 conn = db.connect(host='localhost',port=3306,user='root',passwd='open');
 
 
-for board_type in ['tech']:#['meta','non_tech','tech']:
+for board_type in ['meta','non_tech','tech']:
     with open(directory + 'Reputation_'+ board_type +'8.csv', 'w') as csvfile:
         fieldnames = ['Board', 'UserId','AnswerId', 'reputation']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         exec("datasets = "+board_type + '_boards');
-        for ds in datasets[5:]:# what is the data/datasets?
+        for ds in datasets:# what is the data/datasets?
                 print(ds)
                 cur = conn.cursor()
                 query = 'SELECT vote.Id as vId,'
@@ -55,9 +57,6 @@ for board_type in ['tech']:#['meta','non_tech','tech']:
                 query = query+'vote.UserId as vUserId,'
                 query = query+'answer.OwnerUserId as AnswererID,'
                 query = query+'question.OwnerUserId as AskerID '
-                #query = query+'question.AnswerCount as num_answers,'
-                #query = query+'answer.CreationDate as aCreationDate,'
-                #query = query+'question.CreationDate as qCreationDate '
                 query = query+'FROM '
                 query = query+ds+'.Posts as answer,'
                 query = query+ds+'.Posts as question,'
@@ -73,14 +72,9 @@ for board_type in ['tech']:#['meta','non_tech','tech']:
                 query = query+'AND (answer.Id = vote.PostId '
                 # or given questions (where we might vote for a question with no answers)
                 query = query +'OR question.Id = vote.PostId) '
-                #only show vote Ids ONCE
-                #query = query+'GROUP BY vote.Id  '
-                #query = query+'GROUP BY aId,qId,vId,vPostId,VoteTypeId,vCreationDate,vBountyAmount,vUserId,AnswererID,AskerID,num_answers,aCreationDate,qCreationDate '
                 #order by votes (ascending)
                 query = query+'ORDER BY '
                 query = query+'vote.Id  ASC'#ordered by when votes appear
-                #query = query+'answer.CreationDate';
-                #print(query)
                 cur.execute(query)
                         
                         
@@ -126,8 +120,6 @@ for board_type in ['tech']:#['meta','non_tech','tech']:
                     # if the same Vote ID was not seen before and not None
                     if row[0] == None:
                             row[0] = 0;
-                    #print(lastVId)
-                    #print(row[0])
                     if lastVId != row[0]:
                             
                             # all answers before October 1, 2014 (this is the only data we care about)
@@ -185,26 +177,6 @@ for board_type in ['tech']:#['meta','non_tech','tech']:
                                 #ADate.append(CurrentAdate)
                                 AnswerReputation.append(UserReputation[UniqueAnswerId.index(CurrentAnswererId)])
                         
-                            #else:
-                                
-                                # last known reputation 
-                            ##num_votes = len(vId)
-                            #UniqueaIds = set(aId)
-                            #reputation = [1] * len(UniqueaIds)
-                            #UniqueaIdIndex = -1
-             
-                            #for UniqueaId in UniqueaIds:
-                            #UniqueaIdIndex = UniqueaIdIndex + 1
-                            #creation date for answer (look at all votes BEFORE this date)
-                            #CurrentAnswerCreationDate = datetime.strptime(aCreationDateTime[aId.index(UniqueaId)],'%Y-%m-%dT%H:%M:%S.%f').date()
-
-                            # to determine cumulative reputation, we check how much reputation was made in the "same date"
-                            #ReputationSameDate = date(2000,1,1)
-                            #CumReputationInADay = 0
-             
-                            #for row_num in range(aId.index(UniqueaId)):
-                                #vCreationDate = datetime.strptime(vCreationDateTime[row_num],'%Y-%m-%dT%H:%M:%S.%f').date()
-                                #FlagCount = 0;
                             #the following records the baseline increases and decreases in reputation due to votes...
                             DownVoteVal = -2;
                             DownVoteAnAnswer = -1
@@ -343,9 +315,6 @@ for board_type in ['tech']:#['meta','non_tech','tech']:
                                 #print(str(DataStr))
                                 w = writer.writerow({'Board': DataStr[0], 'UserId': DataStr[1],'AnswerId': DataStr[2],'reputation': DataStr[3]})
                             
-                            #print row (optional)
-                            #print(row)
-                            #print(lastVId)
                             #count number of lines
                             count = count + 1;
                     # last Vote ID seen
