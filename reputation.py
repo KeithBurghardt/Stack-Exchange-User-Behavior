@@ -99,7 +99,7 @@ for board_type in ['meta','non_tech','tech']:
 
                 # what we do not reconstruct:
                 #   - Bounty/2 code (if no bounty given away)
-                #   - user ID of upvoter/downvoter
+                #   - user ID of upvoter/downvoter (usually not available)
                 #   - reputation for answer accepter if user ID not given
 
                 aId = []
@@ -269,7 +269,7 @@ for board_type in ['meta','non_tech','tech']:
                                              DeltaScore = DownVoteAQuestion
 
              
-                                     # bounty, flag, or approval of user - TO CHECK: approval of edit: user ID known, is it of approval offerer or answer?
+                                     # bounty, flag, or approval of user
                                      elif True:#(vUserId[row_num] == AnswererId[aId.index(UniqueaId)]):
                                          # flagged
                                          if CurrentVoteTypeId in [4,12]:
