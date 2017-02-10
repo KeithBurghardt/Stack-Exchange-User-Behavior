@@ -23,6 +23,8 @@ This code was ripped straight from our original files, therefore it may require 
 Reputation.py:
 We reconstruct the reputation of an answerer just before an answer was voted on (this can be easily changed to be, e.g., the reputation at the moment an answer was made). The following was used to create a close facsimile of the true reputation (reputation rules are based on http://meta.stackexchange.com/questions/7237/how-does-reputation-work):
 
+•	All users start with one reputation point. 
+
 •	one of your questions is voted up/useful: +5 , 
 
 •	one of your answers is voted up/useful: +10 , 
@@ -30,13 +32,6 @@ We reconstruct the reputation of an answerer just before an answer was voted on 
 •	one of your answers becomes accepted: +15 , 
 
 •	you accept an answer written by someone else to one of your own questions: +2 
-
-•	one of your questions or answers is voted down/not useful: −2 
-
-•	All users start with one reputation point. 
-
-
-Furthermore, due to the information being unavailable, and in some cases as a simplification, we did not do the following:
 
 •	a downvote on one of your questions or answers is removed: +2 
 
@@ -56,6 +51,8 @@ reputation: +100 on each site (awarded a maximum of one time per site)
 •	(Stack Overflow only) one of your documentation contributions is approved: +2 
 
 •	(Stack Overflow only) one of your documentation examples is voted up/useful: +5 
+
+•	one of your questions or answers is voted down/not useful: −2 
 
 •	 you vote an answer down/not useful: −1 
 
@@ -79,7 +76,7 @@ reputation: +100 on each site (awarded a maximum of one time per site)
 •	If a vote is cast before a post becomes Community Wiki, but is removed after the post becomes CW, the removal does not affect reputation 
 (source). 
 
-•	 Before May 2011, downvoting questions cost the downvoter one reputation point (source). 
+•	 Before May 2011, downvoting questions cost the downvoter one reputation point. 
 
 •	Deleting and undeleting posts may reverse reputation effects as well, if these posts have votes. Actions previously taken on deleted 
 posts cease to affect reputation within five minutes (source), unless the post meets both the following criteria (in which case the 
@@ -98,43 +95,44 @@ reputation is set to one point (source).
 answers are counted separately (source). Reputation "lost" from the reputation cap is not awarded on following days. 
 
 
+Furthermore, due to the information being unavailable, and in some cases as a simplification, we did not do the following:
+
+•	Automatic bounty awarding (1/2 the full bounty amount, as seen here: http://meta.stackexchange.com/questions/16065/how-does-the-bounty-system-work)
 
 In addition, we use the following code to parse data:
 
 
-
-ParseVoteNormalize.py: Used to find the cumulative distribution function (CDF) of all the attributes we use in the model, and output a 
+•	ParseVoteNormalize.py: Used to find the cumulative distribution function (CDF) of all the attributes we use in the model, and output a 
 pickle file
 
 
 
-ParseVotePData.py: Used to train the model on data from September 2009 until December 31, 2013.
+•	ParseVotePData.py: Used to train the model on data from September 2009 until December 31, 2013.
 
 
 
-glmnetLogisticRegression.R: Uses glmnet library (see: arxiv.org/pdf/1301.6375v3.pdf) and runs a penalized logistic regression of data, 
+•	glmnetLogisticRegression.R: Uses glmnet library (see: arxiv.org/pdf/1301.6375v3.pdf) and runs a penalized logistic regression of data, 
 given the attributes listed in the paper. 
 
 Output: 
 
-Best fit regression coefficients ("BestBetas")
+•	Best fit regression coefficients ("BestBetas")
 
-Penalization for lowest cross-validated error ("BestLambdas")
+•	Penalization for lowest cross-validated error ("BestLambdas")
 
-Deviance Ratio ("DevRatio")
+•	Deviance Ratio ("DevRatio")
 
-Mean cross-validated error (measured in terms of deviance) for each penalization ("MeanCVPerLambda")
+•	Mean cross-validated error (measured in terms of deviance) for each penalization ("MeanCVPerLambda")
 
-Standard deviations of the cross-validated error ("StdCVPerLambda")
+•	Standard deviations of the cross-validated error ("StdCVPerLambda")
 
-Predicted probability and response for testing set used to find the ROC curve of the data ("ROC_test")
-
+•	Predicted probability and response for testing set used to find the ROC curve of the data ("ROC_test")
 
 
 PlottingData.R: Used to convert the best fit coeffients into an easy-to-plot list.
 
 Output:
 
-Best regression coefficients versus number of answers 
+• Best regression coefficients versus number of answers 
 
-Highest regression coefficients and lowest withing 1 standard deviation of the minimum mean cross-validated error
+•	Highest regression coefficients and lowest withing 1 standard deviation of the minimum mean cross-validated error
