@@ -135,7 +135,8 @@ def VotesOverTimeLists(VotesOverTimeADataAcceptDataNames):
 
                         # for the current number of answers equal to 2, 3, 4,...Total Number Of Answers
                         for CurrentNumberOfAnswers in range(1,TotalNumberOfAnswers+1):
- 
+                            
+                            # Dates are seconds since Jan. 1, 2008. Change Time(), or import time 
                             # If training we normalize  using data AFTER August 1 2009
                             if min(Ta)-(1230768000 -1199145600) - 18316800 < 0: continue
                             #	    Jan. 1 2009 - Jan. 1 2008 - (August - January) 2009
@@ -162,11 +163,12 @@ def VotesOverTimeLists(VotesOverTimeADataAcceptDataNames):
                                                 UpVote = 1
                                             elif UpVote == 3:
                                                 UpVote = -1
-
+                                            else: UpVote = 0 #ignore "upvotes" for accepted answers
                                             # Which Answer was voted
                                             VoteAid = v[1]
                                             Tv = v[3]
                                             #Ta = v[4]
+                                            # Dates are seconds since Jan. 1, 2008. Change Time(), or import time  
                                             # if Tv < Jan. 1 2014
                                             if Tv < (1388534400 - 1199145600):
                                                 #   Jan. 1 2014 - 2008
