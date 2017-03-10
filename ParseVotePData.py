@@ -196,7 +196,7 @@ def ParallelWork(VotesOverTimeADataAcceptVotesAcceptAns):
                                                 UpVote = 1
                                         elif UpVote == 3:
                                                 UpVote = -1
-
+                                        else: UpVote = 0 #no change in score when answer is accepted
                                         # Which Answer was voted
                                         VoteAid = v[1]
                                         if VoteAid in Aid[:CurrentNumberOfAnswers]:
